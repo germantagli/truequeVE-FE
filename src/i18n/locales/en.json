@@ -1,0 +1,279 @@
+{
+  "common": {
+    "search": "Search",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile",
+    "settings": "Settings",
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "favorites": "Favorites",
+    "cart": "Cart",
+    "chat": "Chat",
+    "publish": "Publish",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "header": {
+    "logo": "TruequeVE",
+    "categories": "Categories",
+    "publish": "Publish",
+    "monetization": "Monetization",
+    "search": "Search products...",
+    "login": "Login",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "profile": "My Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "navigation": {
+    "marketplace": "Marketplace",
+    "myProducts": "My Products",
+    "messages": "Messages",
+    "notifications": "Notifications"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?"
+  },
+  "home": {
+    "hero": {
+      "title": "Venezuela's Largest Barter Marketplace",
+      "subtitle": "Exchange products and services safely and easily",
+      "searchPlaceholder": "What are you looking for?",
+      "searchButton": "Search"
+    },
+    "featured": {
+      "title": "Featured Products",
+      "viewAll": "View all"
+    },
+    "recent": {
+      "title": "Recent Products",
+      "viewAll": "View all"
+    },
+    "categories": {
+      "title": "Popular Categories",
+      "electronics": "Electronics",
+      "home": "Home",
+      "fashion": "Fashion",
+      "sports": "Sports",
+      "games": "Games",
+      "services": "Services"
+    },
+    "howItWorks": {
+      "title": "How it works?",
+      "step1": {
+        "title": "Publish",
+        "description": "Upload photos and describe your product"
+      },
+      "step2": {
+        "title": "Connect",
+        "description": "Find interested people"
+      },
+      "step3": {
+        "title": "Exchange",
+        "description": "Agree on the exchange and you're done"
+      }
+    },
+    "footer": {
+      "help": "Help",
+      "terms": "Terms and Conditions",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Welcome back",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "or": "Or",
+    "continueWith": "Continue with",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "invalidCredentials": "Invalid credentials. Use test@example.com / 123456 for demo",
+      "loginError": "Login error. Please try again.",
+      "socialNotImplemented": "Login with {{provider}} not implemented in this demo",
+      "forgotPasswordNotImplemented": "Password recovery function not implemented in this demo"
+    }
+  },
+  "search": {
+    "filters": {
+      "relevance": "Relevance",
+      "recent": "Recent",
+      "price": "Price",
+      "distance": "Distance"
+    },
+    "noResults": {
+      "title": "No results found",
+      "buttonText": "Clear filters"
+    }
+  },
+  "product": {
+    "acceptsTrade": "Accepts trade",
+    "saleOnly": "Sale only",
+    "proposeTrade": "Propose trade",
+    "contactSeller": "Contact seller",
+    "viewProfile": "View profile",
+    "details": {
+      "category": "Category",
+      "condition": "Condition",
+      "paymentMethod": "Payment method",
+      "shipping": "Shipping",
+      "location": "Location"
+    }
+  },
+  "monetization": {
+    "title": "Monetization",
+    "subtitle": "Highlight your ads and increase your sales",
+    "highlightPlans": {
+      "title": "Highlight Plans",
+      "subtitle": "Make your ads appear first"
+    },
+    "proPlans": {
+      "title": "Pro Plans",
+      "subtitle": "Advanced features for professional sellers"
+    },
+    "plans": {
+      "7days": "7-day Plan",
+      "14days": "14-day Plan",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "features": {
+      "topPosition": "Top position in searches",
+      "moreVisibility": "More visibility",
+      "highlightBadge": "Highlight badge",
+      "viewStats": "View statistics",
+      "moreExposure": "More exposure time",
+      "unlimitedAds": "Unlimited ads",
+      "advancedStats": "Advanced statistics",
+      "prioritySupport": "Priority support",
+      "marketingTools": "Marketing tools",
+      "noCommissions": "No commissions",
+      "premiumFeatures": "Access to premium features"
+    },
+    "buttons": {
+      "highlight": "Highlight",
+      "subscribe": "Subscribe"
+    },
+    "labels": {
+      "mostPopular": "Most Popular",
+      "discount": "Discount"
+    }
+  },
+  "publish": {
+    "step1": {
+      "title": "Step 1",
+      "subtitle": "Basic product information",
+      "uploadPhotos": "Upload photos",
+      "dragDrop": "Drag and drop photos here, or",
+      "clickToUpload": "click to select",
+      "photoRequirements": "Maximum 8 photos, 8MB each",
+      "category": "Category",
+      "titlePlaceholder": "Ex: iPhone 12 Pro in excellent condition",
+      "saveDraft": "Save draft",
+      "continue": "Continue"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "myAds": "My ads",
+      "favorites": "Favorites"
+    },
+    "adStatus": {
+      "active": "Active",
+      "paused": "Paused",
+      "sold": "Sold"
+    },
+    "actions": {
+      "pause": "Pause",
+      "edit": "Edit",
+      "delete": "Delete",
+      "activate": "Activate",
+      "viewDetails": "View details",
+      "republish": "Republish"
+    },
+    "emptyStates": {
+      "noFavorites": {
+        "title": "You have no favorites",
+        "buttonText": "Explore ads"
+      },
+      "noSavedSearches": {
+        "title": "You have no saved searches",
+        "buttonText": "Search products"
+      }
+    }
+  },
+  "chat": {
+    "activeNow": "Active now",
+    "activeHoursAgo": "Active {{hours}} hours ago",
+    "messageImage": "Message image",
+    "sendMessage": "Send message",
+    "typeMessage": "Type a message..."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and preferences",
+    "sections": {
+      "personal": "Personal data",
+      "shipping": "Shipping address",
+      "billing": "Billing data",
+      "payments": "Payment methods",
+      "security": "Security",
+      "email": "Email and notifications",
+      "privacy": "Privacy",
+      "locale": "Language and theme",
+      "kyc": "Identity verification",
+      "danger": "Logout and delete account"
+    },
+    "messages": {
+      "saved": "Settings saved successfully",
+      "error": "Error saving settings",
+      "loading": "Loading settings..."
+    }
+  },
+  "footer": {
+    "title": "TruequeVE",
+    "subtitle": "Venezuela's largest barter marketplace",
+    "links": {
+      "about": "About",
+      "help": "Help",
+      "terms": "Terms and Conditions",
+      "privacy": "Privacy Policy",
+      "contact": "Contact"
+    },
+    "social": {
+      "follow": "Follow us",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram"
+    },
+    "copyright": "© 2024 TruequeVE. All rights reserved."
+  }
+}
+
+
+

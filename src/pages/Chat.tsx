@@ -19,6 +19,7 @@ import {
 	AppBar,
 	Toolbar,
 	Divider,
+	Container,
 } from '@mui/material'
 import {
 	Send as SendIcon,
@@ -32,8 +33,13 @@ import {
 	Add as AddIcon,
 	Person as PersonIcon,
 	Notifications as NotificationsIcon,
+	Help as HelpIcon,
+	Description as TermsIcon,
+	Security as PrivacyIcon,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import AppHeader from '../components/shared/AppHeader'
+import Footer from '../components/shared/Footer'
 
 interface Message {
 	id: number
@@ -167,54 +173,17 @@ function Chat() {
 		setShowChatView(false)
 	}
 
+	const handlePublishClick = () => {
+		navigate('/publish/step1')
+	}
+
 	const formatTime = (date: Date) => {
 		return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
 	}
 
 	return (
 		<Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
-			{/* Header */}
-			<AppBar position="static" color="inherit" elevation={0} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-				<Toolbar>
-					<Typography 
-						variant="h6" 
-						sx={{ fontWeight: 700, color: 'primary.main', flexGrow: 1, cursor: 'pointer' }}
-						onClick={() => navigate('/')}
-					>
-						TruequeYa
-					</Typography>
-
-					<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center' }}>
-						<Button 
-							startIcon={<HomeIcon />} 
-							color="inherit"
-							onClick={() => navigate('/')}
-						>
-							Inicio
-						</Button>
-						<Button startIcon={<CategoryIcon />} color="inherit">
-							Categorías
-						</Button>
-						<Button variant="contained" startIcon={<AddIcon />} sx={{ bgcolor: 'primary.main' }}>
-							Publicar
-						</Button>
-						<IconButton color="inherit">
-							<NotificationsIcon />
-						</IconButton>
-						<IconButton 
-							color="inherit" 
-							sx={{ 
-								bgcolor: 'primary.main', 
-								color: 'white',
-								'&:hover': { bgcolor: 'primary.dark' }
-							}}
-						>
-							<PersonIcon />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</AppBar>
-
+			<AppHeader />
 			{/* Main Content */}
 			<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
 				<Box 
@@ -560,6 +529,7 @@ function Chat() {
 					)}
 				</Box>
 			</Box>
+			<Footer />
 		</Box>
 	)
 }

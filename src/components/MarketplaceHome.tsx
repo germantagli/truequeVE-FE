@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-	AppBar,
 	Box,
 	Button,
 	Card,
@@ -8,172 +7,139 @@ import {
 	CardMedia,
 	Container,
 	Grid,
-	IconButton,
 	InputBase,
-	Menu,
-	MenuItem,
 	Paper,
-	Rating,
-	TextField,
-	Toolbar,
+	Stack,
 	Typography,
 	Avatar,
 	Chip,
-	Divider,
-	Stack,
+	Rating,
 	useTheme,
-	useMediaQuery,
 } from '@mui/material'
 import {
-	Search as SearchIcon,
-	Menu as MenuIcon,
-	Person as PersonIcon,
-	Notifications as NotificationsIcon,
-	Home as HomeIcon,
 	Category as CategoryIcon,
-	Add as AddIcon,
-	Login as LoginIcon,
 	LocationOn as LocationIcon,
 	AttachMoney as MoneyIcon,
-	Star as StarIcon,
+	Search as SearchIcon,
 	Help as HelpIcon,
 	Description as TermsIcon,
-	PrivacyTip as PrivacyIcon,
-	Logout as LogoutIcon,
-	Chat as ChatIcon,
+	Security as PrivacyIcon,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import { useTranslation } from 'react-i18next'
+import AppHeader from './shared/AppHeader'
+import Footer from './shared/Footer'
 
-// Datos de ejemplo actualizados con IDs únicos
+// Mock data
 const featuredItems = [
 	{
 		id: 1,
-		title: 'iPhone 12 Pro',
-		price: 'Intercambio por Samsung Galaxy',
-		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=iPhone+12+Pro',
+		title: 'iPhone 13 Pro',
+		price: '$800',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=iPhone+13+Pro',
 	},
 	{
 		id: 2,
-		title: 'Bicicleta de montaña',
-		price: 'Intercambio por patineta',
-		image: 'https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=Bicicleta',
+		title: 'MacBook Air M1',
+		price: '$1200',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=MacBook+Air',
 	},
 	{
 		id: 3,
-		title: 'Guitarra acústica',
-		price: 'Intercambio por teclado',
-		image: 'https://via.placeholder.com/300x200/2E7CF6/FFFFFF?text=Guitarra',
+		title: 'PlayStation 5',
+		price: '$500',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=PS5',
 	},
-]
-
-const categories = [
-	{ name: 'Electrónicos', icon: '📱' },
-	{ name: 'Ropa', icon: '👕' },
-	{ name: 'Hogar', icon: '🏠' },
-	{ name: 'Deportes', icon: '⚽' },
-	{ name: 'Libros', icon: '📚' },
-	{ name: 'Juguetes', icon: '🧸' },
 ]
 
 const recentItems = [
 	{
 		id: 4,
-		title: 'Laptop Dell Inspiron',
-		description: 'Laptop en excelente estado, solo 2 años de uso',
-		price: 'Intercambio por MacBook',
-		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=Laptop',
+		title: 'Nintendo Switch',
+		description: 'Consola en perfecto estado',
+		price: '$300',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=Nintendo+Switch',
 	},
 	{
 		id: 5,
-		title: 'Cámara Canon EOS',
-		description: 'Cámara profesional con lentes incluidos',
-		price: 'Intercambio por GoPro',
-		image: 'https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=Cámara',
+		title: 'iPad Air',
+		description: 'Tablet como nueva',
+		price: '$600',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=iPad+Air',
 	},
 	{
 		id: 6,
-		title: 'Mesa de escritorio',
-		description: 'Mesa de madera sólida, perfecta para home office',
-		price: 'Intercambio por silla ergonómica',
-		image: 'https://via.placeholder.com/300x200/2E7CF6/FFFFFF?text=Mesa',
+		title: 'AirPods Pro',
+		description: 'Audífonos inalámbricos',
+		price: '$200',
+		image: 'https://via.placeholder.com/300x200/00E676/FFFFFF?text=AirPods+Pro',
+	},
+]
+
+const categories = [
+	{ name: 'Electrónica', icon: '📱' },
+	{ name: 'Hogar', icon: '🏠' },
+	{ name: 'Moda', icon: '👕' },
+	{ name: 'Deportes', icon: '⚽' },
+	{ name: 'Juegos', icon: '🎮' },
+	{ name: 'Servicios', icon: '💼' },
+]
+
+const howItWorks = [
+	{
+		step: 1,
+		title: 'Publica',
+		description: 'Sube fotos y describe tu producto',
+		icon: '📸',
+	},
+	{
+		step: 2,
+		title: 'Conecta',
+		description: 'Encuentra personas interesadas',
+		icon: '🤝',
+	},
+	{
+		step: 3,
+		title: 'Intercambia',
+		description: 'Acuerda el trueque y listo',
+		icon: '🔄',
 	},
 ]
 
 const testimonials = [
 	{
 		id: 1,
-		name: 'María González',
+		name: 'María G.',
+		avatar: 'https://via.placeholder.com/50x50/00E676/FFFFFF?text=MG',
 		rating: 5,
-		comment: 'Excelente plataforma, encontré exactamente lo que necesitaba intercambiando mi guitarra.',
-		avatar: 'https://via.placeholder.com/60x60/00E676/FFFFFF?text=MG',
+		comment: 'Excelente plataforma, encontré exactamente lo que buscaba.',
 	},
 	{
 		id: 2,
-		name: 'Carlos Rodríguez',
+		name: 'Carlos R.',
+		avatar: 'https://via.placeholder.com/50x50/00E676/FFFFFF?text=CR',
 		rating: 5,
-		comment: 'Muy fácil de usar y seguro. Recomiendo totalmente esta app.',
-		avatar: 'https://via.placeholder.com/60x60/FF6B35/FFFFFF?text=CR',
+		comment: 'Muy fácil de usar y segura para hacer trueques.',
 	},
 	{
 		id: 3,
-		name: 'Ana Martínez',
-		rating: 4,
-		comment: 'Gran experiencia intercambiando productos. La comunidad es muy amigable.',
-		avatar: 'https://via.placeholder.com/60x60/2E7CF6/FFFFFF?text=AM',
-	},
-]
-
-const howItWorks = [
-	{
-		step: 1,
-		title: 'Publica lo que no usas',
-		description: 'Sube fotos y describe los artículos que quieres intercambiar',
-		icon: '📤',
-	},
-	{
-		step: 2,
-		title: 'Encuentra lo que necesitas',
-		description: 'Busca entre miles de productos disponibles para intercambio',
-		icon: '🔍',
-	},
-	{
-		step: 3,
-		title: 'Intercambia fácilmente',
-		description: 'Acuerda el intercambio y coordina la entrega',
-		icon: '🤝',
+		name: 'Ana L.',
+		avatar: 'https://via.placeholder.com/50x50/00E676/FFFFFF?text=AL',
+		rating: 5,
+		comment: 'Perfecta para darle nueva vida a cosas que ya no uso.',
 	},
 ]
 
 function MarketplaceHome() {
-	const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null)
-	const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
 	const [searchQuery, setSearchQuery] = useState('')
 	const theme = useTheme()
-	const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 	const navigate = useNavigate()
-	const { isAuthenticated, user, logout } = useAuth()
+	const { t } = useTranslation()
 
-	const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-		setMobileMenuAnchor(event.currentTarget)
-	}
-
-	const handleMobileMenuClose = () => {
-		setMobileMenuAnchor(null)
-	}
-
-	const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-		setUserMenuAnchor(event.currentTarget)
-	}
-
-	const handleUserMenuClose = () => {
-		setUserMenuAnchor(null)
-	}
-
-	const handleLogout = () => {
-		logout()
-		handleUserMenuClose()
-		navigate('/')
+	const handleSearchClick = () => {
+		if (searchQuery.trim()) {
+			navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+		}
 	}
 
 	const handleProductClick = (productId: number) => {
@@ -181,124 +147,8 @@ function MarketplaceHome() {
 	}
 
 	return (
-		<Box sx={{ 
-			minHeight: '100vh', 
-			bgcolor: 'background.default',
-			display: 'flex',
-			flexDirection: 'column',
-			width: '100%'
-		}}>
-			{/* Header */}
-			<AppBar position="static" color="inherit" elevation={0} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-				<Toolbar>
-					<Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', flexGrow: 1 }}>
-						TruequeYa
-					</Typography>
-
-					{/* Desktop Navigation */}
-					<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center' }}>
-						<Button startIcon={<HomeIcon />} color="inherit">Inicio</Button>
-						<Button startIcon={<CategoryIcon />} color="inherit">Categorías</Button>
-						<Button variant="contained" startIcon={<AddIcon />} sx={{ bgcolor: 'primary.main' }}>
-							Publicar
-						</Button>
-						
-						{isAuthenticated ? (
-							<>
-								<IconButton color="inherit" onClick={() => navigate('/chat')}>
-									<ChatIcon />
-								</IconButton>
-								<IconButton color="inherit">
-									<NotificationsIcon />
-								</IconButton>
-								<IconButton 
-									color="inherit" 
-									onClick={handleUserMenuOpen}
-									sx={{ 
-										bgcolor: 'primary.main', 
-										color: 'white',
-										'&:hover': { bgcolor: 'primary.dark' }
-									}}
-								>
-									<PersonIcon />
-								</IconButton>
-							</>
-						) : (
-							<Button variant="outlined" startIcon={<LoginIcon />} onClick={() => navigate('/login')}>
-								Iniciar sesión
-							</Button>
-						)}
-					</Box>
-
-					{/* Mobile Menu Button */}
-					<IconButton
-						sx={{ display: { xs: 'flex', md: 'none' } }}
-						onClick={handleMobileMenuOpen}
-						color="inherit"
-					>
-						<MenuIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-
-			{/* Mobile Menu */}
-			<Menu
-				anchorEl={mobileMenuAnchor}
-				open={Boolean(mobileMenuAnchor)}
-				onClose={handleMobileMenuClose}
-				sx={{ display: { xs: 'block', md: 'none' } }}
-			>
-				<MenuItem onClick={handleMobileMenuClose}>
-					<HomeIcon sx={{ mr: 1 }} /> Inicio
-				</MenuItem>
-				<MenuItem onClick={handleMobileMenuClose}>
-					<CategoryIcon sx={{ mr: 1 }} /> Categorías
-				</MenuItem>
-				<MenuItem onClick={handleMobileMenuClose}>
-					<AddIcon sx={{ mr: 1 }} /> Publicar
-				</MenuItem>
-				{isAuthenticated ? (
-					<>
-						<MenuItem onClick={() => { handleMobileMenuClose(); navigate('/chat'); }}>
-							<ChatIcon sx={{ mr: 1 }} /> Chat
-						</MenuItem>
-						<MenuItem onClick={handleMobileMenuClose}>
-							<PersonIcon sx={{ mr: 1 }} /> Mi Perfil
-						</MenuItem>
-						<MenuItem onClick={handleLogout}>
-							<LogoutIcon sx={{ mr: 1 }} /> Cerrar sesión
-						</MenuItem>
-					</>
-				) : (
-					<MenuItem onClick={() => { handleMobileMenuClose(); navigate('/login'); }}>
-						<LoginIcon sx={{ mr: 1 }} /> Iniciar sesión
-					</MenuItem>
-				)}
-			</Menu>
-
-			{/* User Menu */}
-			<Menu
-				anchorEl={userMenuAnchor}
-				open={Boolean(userMenuAnchor)}
-				onClose={handleUserMenuClose}
-			>
-				<MenuItem disabled>
-					<Typography variant="body2" color="text.secondary">
-						{user?.email}
-					</Typography>
-				</MenuItem>
-				<Divider />
-				<MenuItem onClick={handleUserMenuClose}>
-					<PersonIcon sx={{ mr: 1 }} /> Mi Perfil
-				</MenuItem>
-				<MenuItem onClick={handleUserMenuClose}>
-					<NotificationsIcon sx={{ mr: 1 }} /> Notificaciones
-				</MenuItem>
-				<Divider />
-				<MenuItem onClick={handleLogout}>
-					<LogoutIcon sx={{ mr: 1 }} /> Cerrar sesión
-				</MenuItem>
-			</Menu>
+		<Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
+			<AppHeader />
 
 			{/* Hero Section */}
 			<Box
@@ -327,7 +177,7 @@ function MarketplaceHome() {
 			>
 				<Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 					<Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 700, mb: 4 }}>
-						Encuentra lo que buscas, intercambia lo que no usas
+						{t('home.hero.title')}
 					</Typography>
 
 					{/* Search Bar */}
@@ -344,13 +194,13 @@ function MarketplaceHome() {
 					>
 						<SearchIcon color="action" />
 						<InputBase
-							placeholder="¿Qué estás buscando?"
+							placeholder={t('home.hero.searchPlaceholder')}
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
 							sx={{ flex: 1, ml: 1 }}
 						/>
-						<Button variant="contained" sx={{ bgcolor: 'primary.main' }}>
-							Buscar
+						<Button variant="contained" sx={{ bgcolor: 'primary.main' }} onClick={handleSearchClick}>
+							{t('home.hero.searchButton')}
 						</Button>
 					</Paper>
 
@@ -368,7 +218,7 @@ function MarketplaceHome() {
 				</Container>
 			</Box>
 
-			<Container maxWidth="lg" sx={{ py: 6, width: '100%' }}>
+			<Container maxWidth="lg" sx={{ py: 6, width: '100%', flex: 1 }}>
 				{/* Featured Items */}
 				<Box sx={{ mb: 8 }}>
 					<Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 600, mb: 4 }}>
@@ -529,35 +379,10 @@ function MarketplaceHome() {
 				</Box>
 			</Container>
 
-			{/* Footer */}
-			<Box
-				component="footer"
-				sx={{
-					bgcolor: 'grey.100',
-					py: 4,
-					width: '100%',
-					borderTop: `1px solid ${theme.palette.divider}`,
-				}}
-			>
-				<Container maxWidth="lg">
-					<Stack direction="row" spacing={2} justifyContent={{ xs: 'center', md: 'flex-start' }}>
-						<Button startIcon={<HelpIcon />} color="inherit">
-							Ayuda
-						</Button>
-						<Button startIcon={<TermsIcon />} color="inherit">
-							Términos
-						</Button>
-						<Button startIcon={<PrivacyIcon />} color="inherit">
-							Privacidad
-						</Button>
-					</Stack>
-					<Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: { xs: 'center', md: 'left' } }}>
-						© 2024 TruequeYa. Todos los derechos reservados.
-					</Typography>
-				</Container>
-			</Box>
+			<Footer />
 		</Box>
 	)
 }
 
 export default MarketplaceHome
+

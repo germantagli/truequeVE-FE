@@ -1,0 +1,279 @@
+{
+  "common": {
+    "search": "Cerca",
+    "login": "Accedi",
+    "register": "Registrati",
+    "logout": "Esci",
+    "profile": "Profilo",
+    "settings": "Impostazioni",
+    "home": "Home",
+    "products": "Prodotti",
+    "categories": "Categorie",
+    "favorites": "Preferiti",
+    "cart": "Carrello",
+    "chat": "Chat",
+    "publish": "Pubblica",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo"
+  },
+  "header": {
+    "logo": "TruequeVE",
+    "categories": "Categorie",
+    "publish": "Pubblica",
+    "monetization": "Monetizzazione",
+    "search": "Cerca prodotti...",
+    "login": "Accedi",
+    "messages": "Messaggi",
+    "notifications": "Notifiche",
+    "profile": "Il Mio Profilo",
+    "settings": "Impostazioni",
+    "logout": "Esci"
+  },
+  "navigation": {
+    "marketplace": "Mercato",
+    "myProducts": "I Miei Prodotti",
+    "messages": "Messaggi",
+    "notifications": "Notifiche"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Conferma Password",
+    "forgotPassword": "Password dimenticata?",
+    "rememberMe": "Ricordami",
+    "signIn": "Accedi",
+    "signUp": "Registrati",
+    "alreadyHaveAccount": "Hai già un account?",
+    "dontHaveAccount": "Non hai un account?"
+  },
+  "home": {
+    "hero": {
+      "title": "Il più grande mercato di baratto del Venezuela",
+      "subtitle": "Scambia prodotti e servizi in modo sicuro e facile",
+      "searchPlaceholder": "Cosa stai cercando?",
+      "searchButton": "Cerca"
+    },
+    "featured": {
+      "title": "Prodotti in Evidenza",
+      "viewAll": "Vedi tutti"
+    },
+    "recent": {
+      "title": "Prodotti Recenti",
+      "viewAll": "Vedi tutti"
+    },
+    "categories": {
+      "title": "Categorie Popolari",
+      "electronics": "Elettronica",
+      "home": "Casa",
+      "fashion": "Moda",
+      "sports": "Sport",
+      "games": "Giochi",
+      "services": "Servizi"
+    },
+    "howItWorks": {
+      "title": "Come funziona?",
+      "step1": {
+        "title": "Pubblica",
+        "description": "Carica foto e descrivi il tuo prodotto"
+      },
+      "step2": {
+        "title": "Connetti",
+        "description": "Trova persone interessate"
+      },
+      "step3": {
+        "title": "Scambia",
+        "description": "Accorda lo scambio e hai finito"
+      }
+    },
+    "footer": {
+      "help": "Aiuto",
+      "terms": "Termini e Condizioni",
+      "privacy": "Politica sulla Privacy"
+    }
+  },
+  "login": {
+    "title": "Accedi",
+    "subtitle": "Bentornato",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Accedi",
+    "forgotPassword": "Password dimenticata?",
+    "or": "O",
+    "continueWith": "Continua con",
+    "noAccount": "Non hai un account?",
+    "signUp": "Registrati",
+    "errors": {
+      "emailRequired": "L'email è richiesta",
+      "emailInvalid": "Inserisci un'email valida",
+      "passwordRequired": "La password è richiesta",
+      "passwordMinLength": "La password deve essere di almeno 6 caratteri",
+      "invalidCredentials": "Credenziali non valide. Usa test@example.com / 123456 per la demo",
+      "loginError": "Errore di accesso. Riprova.",
+      "socialNotImplemented": "Login con {{provider}} non implementato in questa demo",
+      "forgotPasswordNotImplemented": "Funzione di recupero password non implementata in questa demo"
+    }
+  },
+  "search": {
+    "filters": {
+      "relevance": "Rilevanza",
+      "recent": "Recenti",
+      "price": "Prezzo",
+      "distance": "Distanza"
+    },
+    "noResults": {
+      "title": "Nessun risultato trovato",
+      "buttonText": "Cancella filtri"
+    }
+  },
+  "product": {
+    "acceptsTrade": "Accetta baratto",
+    "saleOnly": "Solo vendita",
+    "proposeTrade": "Proponi baratto",
+    "contactSeller": "Contatta venditore",
+    "viewProfile": "Vedi profilo",
+    "details": {
+      "category": "Categoria",
+      "condition": "Condizione",
+      "paymentMethod": "Metodo di pagamento",
+      "shipping": "Spedizione",
+      "location": "Posizione"
+    }
+  },
+  "monetization": {
+    "title": "Monetizzazione",
+    "subtitle": "Evidenzia i tuoi annunci e aumenta le vendite",
+    "highlightPlans": {
+      "title": "Piani di Evidenziazione",
+      "subtitle": "Fai apparire i tuoi annunci per primi"
+    },
+    "proPlans": {
+      "title": "Piani Pro",
+      "subtitle": "Funzionalità avanzate per venditori professionali"
+    },
+    "plans": {
+      "7days": "Piano 7 giorni",
+      "14days": "Piano 14 giorni",
+      "monthly": "Mensile",
+      "yearly": "Annuale"
+    },
+    "features": {
+      "topPosition": "Posizione superiore nelle ricerche",
+      "moreVisibility": "Maggiore visibilità",
+      "highlightBadge": "Badge di evidenziazione",
+      "viewStats": "Statistiche di visualizzazione",
+      "moreExposure": "Più tempo di esposizione",
+      "unlimitedAds": "Annunci illimitati",
+      "advancedStats": "Statistiche avanzate",
+      "prioritySupport": "Supporto prioritario",
+      "marketingTools": "Strumenti di marketing",
+      "noCommissions": "Nessuna commissione",
+      "premiumFeatures": "Accesso a funzionalità premium"
+    },
+    "buttons": {
+      "highlight": "Evidenzia",
+      "subscribe": "Abbonati"
+    },
+    "labels": {
+      "mostPopular": "Più Popolare",
+      "discount": "Sconto"
+    }
+  },
+  "publish": {
+    "step1": {
+      "title": "Passo 1",
+      "subtitle": "Informazioni di base del prodotto",
+      "uploadPhotos": "Carica foto",
+      "dragDrop": "Trascina e rilascia le foto qui, o",
+      "clickToUpload": "clicca per selezionare",
+      "photoRequirements": "Massimo 8 foto, 8MB ciascuna",
+      "category": "Categoria",
+      "titlePlaceholder": "Es: iPhone 12 Pro in ottime condizioni",
+      "saveDraft": "Salva bozza",
+      "continue": "Continua"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "myAds": "I miei annunci",
+      "favorites": "Preferiti"
+    },
+    "adStatus": {
+      "active": "Attivo",
+      "paused": "In pausa",
+      "sold": "Venduto"
+    },
+    "actions": {
+      "pause": "Metti in pausa",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "activate": "Riattiva",
+      "viewDetails": "Vedi dettagli",
+      "republish": "Ripubblica"
+    },
+    "emptyStates": {
+      "noFavorites": {
+        "title": "Non hai preferiti",
+        "buttonText": "Esplora annunci"
+      },
+      "noSavedSearches": {
+        "title": "Non hai ricerche salvate",
+        "buttonText": "Cerca prodotti"
+      }
+    }
+  },
+  "chat": {
+    "activeNow": "Attiva ora",
+    "activeHoursAgo": "Attiva {{hours}} ore fa",
+    "messageImage": "Immagine del messaggio",
+    "sendMessage": "Invia messaggio",
+    "typeMessage": "Scrivi un messaggio..."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "subtitle": "Gestisci il tuo account e le preferenze",
+    "sections": {
+      "personal": "Dati personali",
+      "shipping": "Indirizzo di spedizione",
+      "billing": "Dati di fatturazione",
+      "payments": "Metodi di pagamento",
+      "security": "Sicurezza",
+      "email": "Email e notifiche",
+      "privacy": "Privacy",
+      "locale": "Lingua e tema",
+      "kyc": "Verifica identità",
+      "danger": "Logout e elimina account"
+    },
+    "messages": {
+      "saved": "Impostazioni salvate con successo",
+      "error": "Errore nel salvare le impostazioni",
+      "loading": "Caricamento impostazioni..."
+    }
+  },
+  "footer": {
+    "title": "TruequeVE",
+    "subtitle": "Il più grande mercato di baratto del Venezuela",
+    "links": {
+      "about": "Chi siamo",
+      "help": "Aiuto",
+      "terms": "Termini e Condizioni",
+      "privacy": "Politica sulla Privacy",
+      "contact": "Contatto"
+    },
+    "social": {
+      "follow": "Seguici",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram"
+    },
+    "copyright": "© 2024 TruequeVE. Tutti i diritti riservati."
+  }
+}
+
+
+

@@ -1,0 +1,279 @@
+{
+  "common": {
+    "search": "Buscar",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "home": "Inicio",
+    "products": "Productos",
+    "categories": "Categorías",
+    "favorites": "Favoritos",
+    "cart": "Carrito",
+    "chat": "Chat",
+    "publish": "Publicar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "header": {
+    "logo": "TruequeVE",
+    "categories": "Categorías",
+    "publish": "Publicar",
+    "monetization": "Monetización",
+    "search": "Buscar productos...",
+    "login": "Iniciar sesión",
+    "messages": "Mensajes",
+    "notifications": "Notificaciones",
+    "profile": "Mi Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "navigation": {
+    "marketplace": "Mercado",
+    "myProducts": "Mis Productos",
+    "messages": "Mensajes",
+    "notifications": "Notificaciones"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "rememberMe": "Recordarme",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?"
+  },
+  "home": {
+    "hero": {
+      "title": "El mercado de trueque más grande de Venezuela",
+      "subtitle": "Intercambia productos y servicios de forma segura y fácil",
+      "searchPlaceholder": "¿Qué estás buscando?",
+      "searchButton": "Buscar"
+    },
+    "featured": {
+      "title": "Productos Destacados",
+      "viewAll": "Ver todos"
+    },
+    "recent": {
+      "title": "Productos Recientes",
+      "viewAll": "Ver todos"
+    },
+    "categories": {
+      "title": "Categorías Populares",
+      "electronics": "Electrónica",
+      "home": "Hogar",
+      "fashion": "Moda",
+      "sports": "Deportes",
+      "games": "Juegos",
+      "services": "Servicios"
+    },
+    "howItWorks": {
+      "title": "¿Cómo funciona?",
+      "step1": {
+        "title": "Publica",
+        "description": "Sube fotos y describe tu producto"
+      },
+      "step2": {
+        "title": "Conecta",
+        "description": "Encuentra personas interesadas"
+      },
+      "step3": {
+        "title": "Intercambia",
+        "description": "Acuerda el intercambio y listo"
+      }
+    },
+    "footer": {
+      "help": "Ayuda",
+      "terms": "Términos y Condiciones",
+      "privacy": "Política de Privacidad"
+    }
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "subtitle": "Bienvenido de vuelta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "signIn": "Iniciar sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "or": "O",
+    "continueWith": "Continuar con",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Registrarse",
+    "errors": {
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Ingresa un correo electrónico válido",
+      "passwordRequired": "La contraseña es requerida",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "invalidCredentials": "Credenciales incorrectas. Usa test@example.com / 123456 para demo",
+      "loginError": "Error al iniciar sesión. Intenta nuevamente.",
+      "socialNotImplemented": "Login con {{provider}} no implementado en esta demo",
+      "forgotPasswordNotImplemented": "Función de recuperación de contraseña no implementada en esta demo"
+    }
+  },
+  "search": {
+    "filters": {
+      "relevance": "Relevancia",
+      "recent": "Recientes",
+      "price": "Precio",
+      "distance": "Cercanía"
+    },
+    "noResults": {
+      "title": "No se encontraron resultados",
+      "buttonText": "Limpiar filtros"
+    }
+  },
+  "product": {
+    "acceptsTrade": "Acepta trueque",
+    "saleOnly": "Solo venta",
+    "proposeTrade": "Proponer trueque",
+    "contactSeller": "Contactar vendedor",
+    "viewProfile": "Ver perfil",
+    "details": {
+      "category": "Categoría",
+      "condition": "Condición",
+      "paymentMethod": "Método de pago",
+      "shipping": "Envío",
+      "location": "Ubicación"
+    }
+  },
+  "monetization": {
+    "title": "Monetización",
+    "subtitle": "Destaca tus anuncios y aumenta tus ventas",
+    "highlightPlans": {
+      "title": "Planes de Destacado",
+      "subtitle": "Haz que tus anuncios se vean primero"
+    },
+    "proPlans": {
+      "title": "Planes Pro",
+      "subtitle": "Funciones avanzadas para vendedores profesionales"
+    },
+    "plans": {
+      "7days": "Plan 7 días",
+      "14days": "Plan 14 días",
+      "monthly": "Mensual",
+      "yearly": "Anual"
+    },
+    "features": {
+      "topPosition": "Posición superior en búsquedas",
+      "moreVisibility": "Mayor visibilidad",
+      "highlightBadge": "Badge de \"Destacado\"",
+      "viewStats": "Estadísticas de visualizaciones",
+      "moreExposure": "Más tiempo de exposición",
+      "unlimitedAds": "Anuncios ilimitados",
+      "advancedStats": "Estadísticas avanzadas",
+      "prioritySupport": "Soporte prioritario",
+      "marketingTools": "Herramientas de marketing",
+      "noCommissions": "Sin comisiones",
+      "premiumFeatures": "Acceso a funciones premium"
+    },
+    "buttons": {
+      "highlight": "Destacar",
+      "subscribe": "Suscribirse"
+    },
+    "labels": {
+      "mostPopular": "Más Popular",
+      "discount": "Descuento"
+    }
+  },
+  "publish": {
+    "step1": {
+      "title": "Paso 1",
+      "subtitle": "Información básica del producto",
+      "uploadPhotos": "Subir fotos",
+      "dragDrop": "Arrastra y suelta las fotos aquí, o",
+      "clickToUpload": "haz clic para seleccionar",
+      "photoRequirements": "Máximo 8 fotos, 8MB cada una",
+      "category": "Categoría",
+      "titlePlaceholder": "Ej: iPhone 12 Pro en excelente estado",
+      "saveDraft": "Guardar borrador",
+      "continue": "Continuar"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "myAds": "Mis anuncios",
+      "favorites": "Favoritos"
+    },
+    "adStatus": {
+      "active": "Activo",
+      "paused": "Pausado",
+      "sold": "Vendido"
+    },
+    "actions": {
+      "pause": "Pausar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "activate": "Reactivar",
+      "viewDetails": "Ver detalles",
+      "republish": "Re-publicar"
+    },
+    "emptyStates": {
+      "noFavorites": {
+        "title": "No tienes favoritos",
+        "buttonText": "Explorar anuncios"
+      },
+      "noSavedSearches": {
+        "title": "No tienes búsquedas guardadas",
+        "buttonText": "Buscar productos"
+      }
+    }
+  },
+  "chat": {
+    "activeNow": "Activa ahora",
+    "activeHoursAgo": "Activa hace {{hours}} horas",
+    "messageImage": "Imagen del mensaje",
+    "sendMessage": "Enviar mensaje",
+    "typeMessage": "Escribe un mensaje..."
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Gestiona tu cuenta y preferencias",
+    "sections": {
+      "personal": "Datos personales",
+      "shipping": "Dirección de envío",
+      "billing": "Datos de facturación",
+      "payments": "Métodos de pago",
+      "security": "Seguridad",
+      "email": "Email y notificaciones",
+      "privacy": "Privacidad",
+      "locale": "Idioma y tema",
+      "kyc": "Verificación de identidad",
+      "danger": "Cerrar sesión y eliminar cuenta"
+    },
+    "messages": {
+      "saved": "Configuración guardada exitosamente",
+      "error": "Error al guardar la configuración",
+      "loading": "Cargando configuración..."
+    }
+  },
+  "footer": {
+    "title": "TruequeVE",
+    "subtitle": "El mercado de trueque más grande de Venezuela",
+    "links": {
+      "about": "Acerca de",
+      "help": "Ayuda",
+      "terms": "Términos y Condiciones",
+      "privacy": "Política de Privacidad",
+      "contact": "Contacto"
+    },
+    "social": {
+      "follow": "Síguenos",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram"
+    },
+    "copyright": "© 2024 TruequeVE. Todos los derechos reservados."
+  }
+}
+
+
+

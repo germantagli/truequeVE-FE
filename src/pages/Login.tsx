@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-	AppBar,
 	Box,
 	Button,
 	Card,
@@ -12,7 +11,6 @@ import {
 	Link,
 	Stack,
 	TextField,
-	Toolbar,
 	Typography,
 	useTheme,
 	Alert,
@@ -23,14 +21,12 @@ import {
 import {
 	Visibility,
 	VisibilityOff,
-	Notifications as NotificationsIcon,
-	Home as HomeIcon,
-	Category as CategoryIcon,
-	Add as AddIcon,
-	Login as LoginIcon,
 } from '@mui/icons-material'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../contexts/AuthContext'
+import AppHeader from '../components/shared/AppHeader'
+import Footer from '../components/shared/Footer'
 
 function Login() {
 	const [showPassword, setShowPassword] = useState(false)
@@ -44,6 +40,7 @@ function Login() {
 	const navigate = useNavigate()
 	const { login } = useAuth()
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+	const { t } = useTranslation()
 
 	const handleTogglePasswordVisibility = () => {
 		setShowPassword(!showPassword)
@@ -56,19 +53,19 @@ function Login() {
 
 		// Validar email
 		if (!email.trim()) {
-			setEmailError('El correo electrónico es requerido')
+			setEmailError(t('login.errors.emailRequired'))
 			isValid = false
 		} else if (!/\S+@\S+\.\S+/.test(email)) {
-			setEmailError('Ingresa un correo electrónico válido')
+			setEmailError(t('login.errors.emailInvalid'))
 			isValid = false
 		}
 
 		// Validar contraseña
 		if (!password.trim()) {
-			setPasswordError('La contraseña es requerida')
+			setPasswordError(t('login.errors.passwordRequired'))
 			isValid = false
 		} else if (password.length < 6) {
-			setPasswordError('La contraseña debe tener al menos 6 caracteres')
+			setPasswordError(t('login.errors.passwordMinLength'))
 			isValid = false
 		}
 
@@ -92,10 +89,10 @@ function Login() {
 				// Redirigir al dashboard o página principal
 				navigate('/')
 			} else {
-				setError('Credenciales incorrectas. Usa test@example.com / 123456 para demo')
+				setError(t('login.errors.invalidCredentials'))
 			}
 		} catch (err) {
-			setError('Error al iniciar sesión. Intenta nuevamente.')
+			setError(t('login.errors.loginError'))
 		} finally {
 			setIsLoading(false)
 		}
@@ -106,62 +103,18 @@ function Login() {
 		// Simular login social
 		setTimeout(() => {
 			setIsLoading(false)
-			setError(`Login con ${provider} no implementado en esta demo`)
+			setError(t('login.errors.socialNotImplemented', { provider }))
 		}, 1000)
 	}
 
 	const handleForgotPassword = () => {
-		setError('Función de recuperación de contraseña no implementada en esta demo')
+		setError(t('login.errors.forgotPasswordNotImplemented'))
 	}
 
 	return (
 		<Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
-			{/* Header */}
-			<AppBar position="static" color="inherit" elevation={0} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-				<Toolbar>
-					<Typography 
-						variant="h6" 
-						sx={{ fontWeight: 700, color: 'primary.main', flexGrow: 1, cursor: 'pointer' }}
-						onClick={() => navigate('/')}
-					>
-						TruequeYa
-					</Typography>
-
-					{/* Desktop Navigation */}
-					<Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center' }}>
-						<Button 
-							startIcon={<HomeIcon />} 
-							color="inherit"
-							onClick={() => navigate('/')}
-						>
-							Inicio
-						</Button>
-						<Button startIcon={<CategoryIcon />} color="inherit">
-							Categorías
-						</Button>
-						<Button variant="contained" startIcon={<AddIcon />} sx={{ bgcolor: 'primary.main' }}>
-							Publicar
-						</Button>
-						<Button 
-							variant="outlined" 
-							startIcon={<LoginIcon />}
-							sx={{ 
-								bgcolor: 'grey.100',
-								borderColor: 'grey.300',
-								'&:hover': {
-									bgcolor: 'grey.200',
-								}
-							}}
-						>
-							Iniciar sesión
-						</Button>
-						<IconButton color="inherit">
-							<NotificationsIcon />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</AppBar>
-
+			<AppHeader />
+			
 			{/* Main Content - Ocupa todo el espacio restante */}
 			<Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: { xs: 2, sm: 3, md: 4 } }}>
 				<Container 
@@ -187,7 +140,7 @@ function Login() {
 							px: { xs: 1, sm: 0 }
 						}}
 					>
-						Bienvenido de nuevo
+						{t('login.subtitle')}
 					</Typography>
 
 					{/* Login Form Card */}
@@ -201,49 +154,38 @@ function Login() {
 						}}
 					>
 						<CardContent sx={{ p: 0 }}>
-							<form onSubmit={handleSubmit}>
-								<Stack spacing={{ xs: 2.5, md: 3 }}>
-									{/* Email/Phone Field */}
+							{/* Error Alert */}
+							{error && (
+								<Alert severity="error" sx={{ mb: 3 }}>
+									{error}
+								</Alert>
+							)}
+
+							{/* Login Form */}
+							<Box component="form" onSubmit={handleSubmit}>
+								<Stack spacing={3}>
+									{/* Email Field */}
 									<TextField
 										fullWidth
-										placeholder="Correo electrónico o teléfono"
+										label={t('login.email')}
+										type="email"
 										value={email}
-										onChange={(e) => {
-											setEmail(e.target.value)
-											setEmailError('')
-										}}
-										variant="outlined"
+										onChange={(e) => setEmail(e.target.value)}
 										error={!!emailError}
 										helperText={emailError}
 										disabled={isLoading}
-										size={isMobile ? "medium" : "medium"}
-										sx={{
-											'& .MuiOutlinedInput-root': {
-												'& fieldset': {
-													borderColor: emailError ? 'error.main' : 'grey.300',
-												},
-												'&:hover fieldset': {
-													borderColor: emailError ? 'error.main' : 'grey.400',
-												},
-											},
-										}}
 									/>
 
 									{/* Password Field */}
 									<TextField
 										fullWidth
-										placeholder="Contraseña"
+										label={t('login.password')}
 										type={showPassword ? 'text' : 'password'}
 										value={password}
-										onChange={(e) => {
-											setPassword(e.target.value)
-											setPasswordError('')
-										}}
-										variant="outlined"
+										onChange={(e) => setPassword(e.target.value)}
 										error={!!passwordError}
 										helperText={passwordError}
 										disabled={isLoading}
-										size={isMobile ? "medium" : "medium"}
 										InputProps={{
 											endAdornment: (
 												<InputAdornment position="end">
@@ -251,186 +193,135 @@ function Login() {
 														onClick={handleTogglePasswordVisibility}
 														edge="end"
 														disabled={isLoading}
-														sx={{ color: 'grey.500' }}
 													>
 														{showPassword ? <VisibilityOff /> : <Visibility />}
 													</IconButton>
 												</InputAdornment>
 											),
 										}}
-										sx={{
-											'& .MuiOutlinedInput-root': {
-												'& fieldset': {
-													borderColor: passwordError ? 'error.main' : 'grey.300',
-												},
-												'&:hover fieldset': {
-													borderColor: passwordError ? 'error.main' : 'grey.400',
-												},
-											},
-										}}
 									/>
 
 									{/* Forgot Password Link */}
-									<Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+									<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 										<Link
 											component="button"
 											variant="body2"
 											onClick={handleForgotPassword}
 											disabled={isLoading}
-											sx={{
-												color: 'grey.600',
+											sx={{ 
+												color: 'primary.main',
 												textDecoration: 'none',
-												fontSize: { xs: '0.875rem', md: '1rem' },
-												'&:hover': {
-													color: 'primary.main',
-													textDecoration: 'underline',
-												},
-												'&:disabled': {
-													color: 'grey.400',
-													cursor: 'not-allowed',
-												},
+												'&:hover': { textDecoration: 'underline' }
 											}}
 										>
-											¿Olvidaste tu contraseña?
+											{t('login.forgotPassword')}
 										</Link>
 									</Box>
 
 									{/* Login Button */}
 									<Button
 										type="submit"
-										variant="contained"
 										fullWidth
+										variant="contained"
+										size="large"
 										disabled={isLoading}
-										size={isMobile ? "large" : "large"}
 										sx={{
-											bgcolor: '#00E676',
-											color: 'white',
-											py: { xs: 1.5, md: 2 },
+											bgcolor: 'primary.main',
+											py: 1.5,
+											fontSize: '1.1rem',
 											fontWeight: 600,
-											fontSize: { xs: '1rem', md: '1.1rem' },
-											borderRadius: 2,
 											'&:hover': {
-												bgcolor: '#00C853',
+												bgcolor: 'primary.dark',
 											},
 											'&:disabled': {
-												bgcolor: 'grey.300',
-												color: 'grey.500',
-											},
+												bgcolor: 'grey.400',
+											}
 										}}
 									>
 										{isLoading ? (
-											<CircularProgress size={24} sx={{ color: 'white' }} />
+											<CircularProgress size={24} color="inherit" />
 										) : (
-											'Iniciar sesión'
+											t('login.signIn')
 										)}
 									</Button>
+
+									{/* Divider */}
+									<Divider sx={{ my: 2 }}>
+										<Typography variant="body2" color="text.secondary">
+											{t('login.or')} {t('login.continueWith')}
+										</Typography>
+									</Divider>
+
+									{/* Social Login Buttons */}
+									<Stack direction="row" spacing={2}>
+										<Button
+											fullWidth
+											variant="outlined"
+											onClick={() => handleSocialLogin('gmail')}
+											disabled={isLoading}
+											sx={{
+												borderColor: 'grey.300',
+												color: 'text.primary',
+												'&:hover': {
+													borderColor: 'grey.400',
+													bgcolor: 'grey.50',
+												}
+											}}
+										>
+											Gmail
+										</Button>
+										<Button
+											fullWidth
+											variant="outlined"
+											onClick={() => handleSocialLogin('apple')}
+											disabled={isLoading}
+											sx={{
+												borderColor: 'grey.300',
+												color: 'text.primary',
+												'&:hover': {
+													borderColor: 'grey.400',
+													bgcolor: 'grey.50',
+												}
+											}}
+										>
+											Apple
+										</Button>
+									</Stack>
+
+									{/* Register Link */}
+									<Box sx={{ textAlign: 'center', mt: 2 }}>
+										<Typography variant="body2" color="text.secondary">
+											{t('login.noAccount')}{' '}
+											<Link
+												component={RouterLink}
+												to="/register"
+												sx={{
+													color: 'primary.main',
+													textDecoration: 'none',
+													fontWeight: 600,
+													'&:hover': { textDecoration: 'underline' }
+												}}
+											>
+												{t('login.signUp')}
+											</Link>
+										</Typography>
+									</Box>
 								</Stack>
-							</form>
-
-							{/* Divider */}
-							<Box sx={{ my: { xs: 2.5, md: 3 }, textAlign: 'center' }}>
-								<Typography variant="body2" color="grey.600" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-									O inicia sesión con
-								</Typography>
-							</Box>
-
-							{/* Social Login Buttons */}
-							<Stack 
-								direction={{ xs: 'column', sm: 'row' }} 
-								spacing={{ xs: 1.5, sm: 2 }}
-								sx={{ mb: { xs: 2, md: 3 } }}
-							>
-								<Button
-									variant="outlined"
-									fullWidth
-									disabled={isLoading}
-									onClick={() => handleSocialLogin('gmail')}
-									size={isMobile ? "large" : "large"}
-									sx={{
-										borderColor: 'grey.300',
-										color: 'grey.700',
-										py: { xs: 1.5, md: 2 },
-										fontSize: { xs: '0.9rem', md: '1rem' },
-										borderRadius: 2,
-										'&:hover': {
-											borderColor: 'grey.400',
-											bgcolor: 'grey.50',
-										},
-										'&:disabled': {
-											borderColor: 'grey.200',
-											color: 'grey.400',
-										},
-									}}
-								>
-									Continuar con Gmail
-								</Button>
-								<Button
-									variant="outlined"
-									fullWidth
-									disabled={isLoading}
-									onClick={() => handleSocialLogin('apple')}
-									size={isMobile ? "large" : "large"}
-									sx={{
-										borderColor: 'grey.300',
-										color: 'grey.700',
-										py: { xs: 1.5, md: 2 },
-										fontSize: { xs: '0.9rem', md: '1rem' },
-										borderRadius: 2,
-										'&:hover': {
-											borderColor: 'grey.400',
-											bgcolor: 'grey.50',
-										},
-										'&:disabled': {
-											borderColor: 'grey.200',
-											color: 'grey.400',
-										},
-									}}
-								>
-									Continuar con Apple
-								</Button>
-							</Stack>
-
-							{/* Registration Link */}
-							<Box sx={{ textAlign: 'center' }}>
-								<Typography variant="body2" color="grey.600" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-									¿No tienes una cuenta?{' '}
-									<Link
-										component={RouterLink}
-										to="/register"
-										sx={{
-											color: 'primary.main',
-											textDecoration: 'none',
-											fontWeight: 600,
-											'&:hover': {
-												textDecoration: 'underline',
-											},
-										}}
-									>
-										Regístrate
-									</Link>
-								</Typography>
 							</Box>
 						</CardContent>
 					</Card>
 				</Container>
 			</Box>
 
-			{/* Error Snackbar */}
+			<Footer />
+
+			{/* Snackbar for notifications */}
 			<Snackbar
 				open={!!error}
 				autoHideDuration={6000}
 				onClose={() => setError('')}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-				sx={{ 
-					width: { xs: '90%', sm: 'auto' },
-					maxWidth: { xs: '100%', sm: '400px' }
-				}}
 			>
-				<Alert 
-					onClose={() => setError('')} 
-					severity="error" 
-					sx={{ width: '100%' }}
-				>
+				<Alert onClose={() => setError('')} severity="error" sx={{ width: '100%' }}>
 					{error}
 				</Alert>
 			</Snackbar>
