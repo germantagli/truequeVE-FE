@@ -1,35 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import InputAdornment from '@mui/material/InputAdornment';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
-import AppleIcon from '@mui/icons-material/Apple';
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Link as MuiLink,
+  Stack,
+  TextField,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { Visibility, VisibilityOff, NotificationsNone } from '@mui/icons-material';
 
-const LoginPage: React.FC = () => {
-  const [emailOrPhone, setEmailOrPhone] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
+type LoginPageProps = {
+  onLogin?: (identifier: string, password: string) => void;
+};
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+  const [identifier, setIdentifier] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleTogglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
+    setShowPassword(prev => !prev);
   };
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,14 +40,16 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Implementar lógica de login aquí
+    if (onLogin) {
+      onLogin(identifier, password);
+    }
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#fff', display: 'flex', flexDirection: 'column' }}>
-      <AppBar position="static" color="transparent" elevation={0}>
+    <Box sx={{ bgcolor: '#ffffff', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <AppBar position="static" color="transparent" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
         <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700, letterSpacing: 0.3 }}>
             TruequeYa
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
@@ -53,127 +57,115 @@ const LoginPage: React.FC = () => {
             <Button color="inherit">Categorías</Button>
             <Button color="inherit">Publicar</Button>
             <Button color="inherit">Iniciar sesión</Button>
-            <IconButton color="inherit" aria-label="notificaciones">
-              <NotificationsNoneIcon />
+            <IconButton color="inherit" aria-label="Notificaciones">
+              <NotificationsNone />
             </IconButton>
           </Stack>
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="sm" sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', py: 6 }}>
-        <Typography variant="h4" component="h1" align="center" sx={{ fontWeight: 700, mb: 4 }}>
-          Bienvenido de nuevo
-        </Typography>
+      <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
+        <Container maxWidth="sm">
+          <Stack spacing={4} alignItems="center" textAlign="center">
+            <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
+              Bienvenido de nuevo
+            </Typography>
 
-        <Card elevation={2} sx={{ width: '100%' }}>
-          <CardContent>
-            <Box component="form" onSubmit={handleSubmit} noValidate>
-              <Stack spacing={2}>
-                <TextField
-                  fullWidth
-                  placeholder="Correo electrónico o teléfono"
-                  variant="outlined"
-                  value={emailOrPhone}
-                  onChange={(e) => setEmailOrPhone(e.target.value)}
-                  autoComplete="username"
-                />
+            <Card elevation={1} sx={{ width: '100%' }}>
+              <CardContent>
+                <Box component="form" onSubmit={handleSubmit} noValidate>
+                  <Stack spacing={2.5}>
+                    <TextField
+                      fullWidth
+                      placeholder="Correo electrónico o teléfono"
+                      value={identifier}
+                      onChange={(e) => setIdentifier(e.target.value)}
+                      type="text"
+                      autoComplete="username"
+                    />
 
-                <TextField
-                  fullWidth
-                  placeholder="Contraseña"
-                  variant="outlined"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                          onClick={handleTogglePasswordVisibility}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+                    <TextField
+                      fullWidth
+                      placeholder="Contraseña"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                              onClick={handleTogglePasswordVisibility}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
 
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Link href="/forgot-password" underline="hover" variant="body2">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
+                    <Box textAlign="right">
+                      <MuiLink href="#" underline="hover" variant="body2">
+                        ¿Olvidaste tu contraseña?
+                      </MuiLink>
+                    </Box>
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                      sx={{
+                        mt: 1,
+                        bgcolor: '#00E676',
+                        color: '#000',
+                        fontWeight: 600,
+                        '&:hover': {
+                          bgcolor: '#00c860',
+                        },
+                      }}
+                    >
+                      Iniciar sesión
+                    </Button>
+                  </Stack>
                 </Box>
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    mt: 1,
-                    bgcolor: '#00E676',
-                    color: '#000',
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    '&:hover': { bgcolor: '#00c853' },
-                    py: 1.2,
-                  }}
-                >
-                  Iniciar sesión
-                </Button>
-              </Stack>
-            </Box>
+                <Box sx={{ my: 3 }}>
+                  <Divider>O inicia sesión con</Divider>
+                </Box>
 
-            <Divider sx={{ my: 3 }}>O inicia sesión con</Divider>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    sx={{ borderColor: 'grey.400', color: 'text.primary' }}
+                  >
+                    Continuar con Gmail
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    sx={{ borderColor: 'grey.400', color: 'text.primary' }}
+                  >
+                    Continuar con Apple
+                  </Button>
+                </Stack>
+              </CardContent>
+            </Card>
 
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<GoogleIcon />}
-                sx={{
-                  borderColor: '#BDBDBD',
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { borderColor: '#9E9E9E', backgroundColor: 'rgba(0,0,0,0.02)' },
-                  py: 1.1,
-                }}
-              >
-                Continuar con Gmail
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<AppleIcon />}
-                sx={{
-                  borderColor: '#BDBDBD',
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { borderColor: '#9E9E9E', backgroundColor: 'rgba(0,0,0,0.02)' },
-                  py: 1.1,
-                }}
-              >
-                Continuar con Apple
-              </Button>
-            </Stack>
-
-            <Box sx={{ mt: 3, textAlign: 'center' }}>
-              <Typography variant="body2" color="text.secondary">
-                ¿No tienes una cuenta?{' '}
-                <Link href="/register" underline="hover">
-                  Regístrate
-                </Link>
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Container>
+            <Typography variant="body2">
+              ¿No tienes una cuenta?{' '}
+              <MuiLink href="/register" underline="hover">
+                Regístrate
+              </MuiLink>
+            </Typography>
+          </Stack>
+        </Container>
+      </Box>
     </Box>
   );
 };
 
 export default LoginPage;
-
