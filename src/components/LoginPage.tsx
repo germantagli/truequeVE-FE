@@ -17,16 +17,31 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import InputAdornment from '@mui/material/InputAdornment';
+import Alert from '@mui/material/Alert';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 
-const LoginPage: React.FC = () => {
+type LoginPageProps = {
+  onLogin?: (data: { identifier: string; password: string }) => Promise<void> | void;
+  onContinueWithGoogle?: () => Promise<void> | void;
+  onContinueWithApple?: () => Promise<void> | void;
+  redirectAfterLogin?: string;
+};
+
+const LoginPage: React.FC<LoginPageProps> = ({
+  onLogin,
+  onContinueWithGoogle,
+  onContinueWithApple,
+  redirectAfterLogin = '/',
+}) => {
   const [emailOrPhone, setEmailOrPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -36,9 +51,40 @@ const LoginPage: React.FC = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const defaultLogin = async (data: { identifier: string; password: string }) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      const text = await response.text().catch(() => 'Error de autenticación');
+      throw new Error(text || 'Error de autenticación');
+    }
+    window.location.assign(redirectAfterLogin);
+  };
+
+  const defaultGoogle = () => {
+    window.location.href = '/api/auth/google';
+  };
+
+  const defaultApple = () => {
+    window.location.href = '/api/auth/apple';
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Implementar lógica de login aquí
+    setErrorMessage(null);
+    setIsSubmitting(true);
+    try {
+      const handler = onLogin ?? defaultLogin;
+      await handler({ identifier: emailOrPhone.trim(), password });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo iniciar sesión.';
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -69,10 +115,17 @@ const LoginPage: React.FC = () => {
           <CardContent>
             <Box component="form" onSubmit={handleSubmit} noValidate>
               <Stack spacing={2}>
+                {errorMessage && (
+                  <Alert severity="error" variant="outlined">
+                    {errorMessage}
+                  </Alert>
+                )}
                 <TextField
                   fullWidth
                   placeholder="Correo electrónico o teléfono"
                   variant="outlined"
+                  name="identifier"
+                  required
                   value={emailOrPhone}
                   onChange={(e) => setEmailOrPhone(e.target.value)}
                   autoComplete="username"
@@ -83,6 +136,8 @@ const LoginPage: React.FC = () => {
                   placeholder="Contraseña"
                   variant="outlined"
                   type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
@@ -121,8 +176,9 @@ const LoginPage: React.FC = () => {
                     '&:hover': { bgcolor: '#00c853' },
                     py: 1.2,
                   }}
+                  disabled={isSubmitting}
                 >
-                  Iniciar sesión
+                  {isSubmitting ? 'Iniciando…' : 'Iniciar sesión'}
                 </Button>
               </Stack>
             </Box>
@@ -134,6 +190,7 @@ const LoginPage: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 startIcon={<GoogleIcon />}
+                onClick={() => (onContinueWithGoogle ?? defaultGoogle)()}
                 sx={{
                   borderColor: '#BDBDBD',
                   color: 'text.primary',
@@ -148,6 +205,7 @@ const LoginPage: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 startIcon={<AppleIcon />}
+                onClick={() => (onContinueWithApple ?? defaultApple)()}
                 sx={{
                   borderColor: '#BDBDBD',
                   color: 'text.primary',
