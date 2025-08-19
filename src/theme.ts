@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
 	palette: {
-		primary: { main: '#2E7CF6' },
+		primary: { main: '#00E676' },
 		secondary: { main: '#FF6B35' },
 	},
 	typography: {
@@ -10,6 +10,15 @@ const theme = createTheme({
 	},
 	shape: {
 		borderRadius: 12,
+	},
+	components: {
+		MuiCard: {
+			styleOverrides: {
+				root: {
+					boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+				},
+			},
+		},
 	},
 })
 
