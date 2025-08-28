@@ -116,7 +116,10 @@
       "invalidCredentials": "Credenciales incorrectas. Usa test@example.com / 123456 para demo",
       "loginError": "Error al iniciar sesión. Intenta nuevamente.",
       "socialNotImplemented": "Login con {{provider}} no implementado en esta demo",
-      "forgotPasswordNotImplemented": "Función de recuperación de contraseña no implementada en esta demo"
+      "forgotPasswordNotImplemented": "Función de recuperación de contraseña no implementada en esta demo",
+      "otpSendError": "Error al enviar código de verificación",
+      "otpTooManyRequests": "Demasiadas solicitudes. Intenta nuevamente en unos minutos.",
+      "otpInvalid": "Código OTP inválido o expirado"
     }
   },
   "search": {

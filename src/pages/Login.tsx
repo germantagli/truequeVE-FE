@@ -17,56 +17,59 @@ import {
 	CircularProgress,
 	Snackbar,
 	useMediaQuery,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
 } from '@mui/material'
-import {
-	Visibility,
-	VisibilityOff,
-} from '@mui/icons-material'
+
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../contexts/AuthContext'
 import AppHeader from '../components/shared/AppHeader'
 import Footer from '../components/shared/Footer'
+import OTPVerification from '../components/OTPVerification'
+
 
 function Login() {
-	const [showPassword, setShowPassword] = useState(false)
 	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+	const [phone, setPhone] = useState('')
+	const [type, setType] = useState<'email' | 'phone'>('email')
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
 	const [emailError, setEmailError] = useState('')
-	const [passwordError, setPasswordError] = useState('')
+	const [phoneError, setPhoneError] = useState('')
+	const [showOTP, setShowOTP] = useState(false)
 	const theme = useTheme()
 	const navigate = useNavigate()
-	const { login } = useAuth()
+	const { sendOTP } = useAuth()
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 	const { t } = useTranslation()
 
-	const handleTogglePasswordVisibility = () => {
-		setShowPassword(!showPassword)
-	}
+
 
 	const validateForm = () => {
 		let isValid = true
 		setEmailError('')
-		setPasswordError('')
+		setPhoneError('')
 
-		// Validar email
-		if (!email.trim()) {
-			setEmailError(t('login.errors.emailRequired'))
-			isValid = false
-		} else if (!/\S+@\S+\.\S+/.test(email)) {
-			setEmailError(t('login.errors.emailInvalid'))
-			isValid = false
-		}
-
-		// Validar contraseña
-		if (!password.trim()) {
-			setPasswordError(t('login.errors.passwordRequired'))
-			isValid = false
-		} else if (password.length < 6) {
-			setPasswordError(t('login.errors.passwordMinLength'))
-			isValid = false
+		// Validar email o teléfono según el tipo
+		if (type === 'email') {
+			if (!email.trim()) {
+				setEmailError('Email requerido')
+				isValid = false
+			} else if (!/\S+@\S+\.\S+/.test(email)) {
+				setEmailError('Email inválido')
+				isValid = false
+			}
+		} else {
+			if (!phone.trim()) {
+				setPhoneError('Teléfono requerido')
+				isValid = false
+			} else if (!/^[\+]?[1-9][\d]{0,15}$/.test(phone.replace(/[\s\-\(\)]/g, ''))) {
+				setPhoneError('Teléfono inválido')
+				isValid = false
+			}
 		}
 
 		return isValid
@@ -83,19 +86,27 @@ function Login() {
 		setIsLoading(true)
 
 		try {
-			const success = await login(email, password)
+			const success = await sendOTP(email, phone, type, 'login')
 			
 			if (success) {
-				// Redirigir al dashboard o página principal
-				navigate('/')
+				setShowOTP(true)
 			} else {
-				setError(t('login.errors.invalidCredentials'))
+				setError('Error al enviar código de verificación')
 			}
-		} catch (err) {
-			setError(t('login.errors.loginError'))
+		} catch (err: any) {
+			setError(err.message || 'Error al enviar código de verificación')
 		} finally {
 			setIsLoading(false)
 		}
+	}
+
+	const handleOTPSuccess = () => {
+		navigate('/')
+	}
+
+	const handleOTPCancel = () => {
+		setShowOTP(false)
+		setError('')
 	}
 
 	const handleSocialLogin = (provider: 'gmail' | 'apple') => {
@@ -107,9 +118,7 @@ function Login() {
 		}, 1000)
 	}
 
-	const handleForgotPassword = () => {
-		setError(t('login.errors.forgotPasswordNotImplemented'))
-	}
+
 
 	return (
 		<Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
@@ -161,62 +170,62 @@ function Login() {
 								</Alert>
 							)}
 
-							{/* Login Form */}
-							<Box component="form" onSubmit={handleSubmit}>
+							{/* Show OTP Verification or Login Form */}
+							{showOTP ? (
+								<OTPVerification
+									email={email}
+									phone={phone}
+									type={type}
+									purpose="login"
+									onSuccess={handleOTPSuccess}
+									onCancel={handleOTPCancel}
+									showPasswordField={false}
+								/>
+							) : (
+								/* Login Form */
+								<Box component="form" onSubmit={handleSubmit}>
 								<Stack spacing={3}>
-									{/* Email Field */}
-									<TextField
-										fullWidth
-										label={t('login.email')}
-										type="email"
-										value={email}
-										onChange={(e) => setEmail(e.target.value)}
-										error={!!emailError}
-										helperText={emailError}
-										disabled={isLoading}
-									/>
-
-									{/* Password Field */}
-									<TextField
-										fullWidth
-										label={t('login.password')}
-										type={showPassword ? 'text' : 'password'}
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
-										error={!!passwordError}
-										helperText={passwordError}
-										disabled={isLoading}
-										InputProps={{
-											endAdornment: (
-												<InputAdornment position="end">
-													<IconButton
-														onClick={handleTogglePasswordVisibility}
-														edge="end"
-														disabled={isLoading}
-													>
-														{showPassword ? <VisibilityOff /> : <Visibility />}
-													</IconButton>
-												</InputAdornment>
-											),
-										}}
-									/>
-
-									{/* Forgot Password Link */}
-									<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-										<Link
-											component="button"
-											variant="body2"
-											onClick={handleForgotPassword}
+									{/* Type Selector */}
+									<FormControl fullWidth>
+										<InputLabel>Tipo de verificación</InputLabel>
+										<Select
+											value={type}
+											onChange={(e) => setType(e.target.value as 'email' | 'phone')}
+											label="Tipo de verificación"
 											disabled={isLoading}
-											sx={{ 
-												color: 'primary.main',
-												textDecoration: 'none',
-												'&:hover': { textDecoration: 'underline' }
-											}}
 										>
-											{t('login.forgotPassword')}
-										</Link>
-									</Box>
+											<MenuItem value="email">Email</MenuItem>
+											<MenuItem value="phone">Teléfono</MenuItem>
+										</Select>
+									</FormControl>
+
+									{/* Email/Phone Field */}
+									{type === 'email' ? (
+										<TextField
+											fullWidth
+											label="Email"
+											type="email"
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
+											error={!!emailError}
+											helperText={emailError}
+											disabled={isLoading}
+										/>
+									) : (
+										<TextField
+											fullWidth
+											label="Teléfono"
+											type="tel"
+											value={phone}
+											onChange={(e) => setPhone(e.target.value)}
+											error={!!phoneError}
+											helperText={phoneError}
+											disabled={isLoading}
+											placeholder="+584141234567"
+										/>
+									)}
+
+
 
 									{/* Login Button */}
 									<Button
@@ -241,52 +250,55 @@ function Login() {
 										{isLoading ? (
 											<CircularProgress size={24} color="inherit" />
 										) : (
-											t('login.signIn')
+											'Enviar Código de Verificación'
 										)}
 									</Button>
 
 									{/* Divider */}
 									<Divider sx={{ my: 2 }}>
 										<Typography variant="body2" color="text.secondary">
-											{t('login.or')} {t('login.continueWith')}
+											O continuar con
 										</Typography>
 									</Divider>
 
-									{/* Social Login Buttons */}
-									<Stack direction="row" spacing={2}>
-										<Button
-											fullWidth
-											variant="outlined"
-											onClick={() => handleSocialLogin('gmail')}
-											disabled={isLoading}
-											sx={{
-												borderColor: 'grey.300',
-												color: 'text.primary',
-												'&:hover': {
-													borderColor: 'grey.400',
-													bgcolor: 'grey.50',
-												}
-											}}
-										>
-											Gmail
-										</Button>
-										<Button
-											fullWidth
-											variant="outlined"
-											onClick={() => handleSocialLogin('apple')}
-											disabled={isLoading}
-											sx={{
-												borderColor: 'grey.300',
-												color: 'text.primary',
-												'&:hover': {
-													borderColor: 'grey.400',
-													bgcolor: 'grey.50',
-												}
-											}}
-										>
-											Apple
-										</Button>
-									</Stack>
+									{/* Social Login Button */}
+									<Button
+										fullWidth
+										variant="outlined"
+										onClick={() => handleSocialLogin('gmail')}
+										disabled={isLoading}
+										startIcon={
+											<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+												<g fill="none" fillRule="evenodd">
+													<path d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+													<path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+													<path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+													<path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+												</g>
+											</svg>
+										}
+										sx={{
+											borderColor: '#dadce0',
+											color: '#3c4043',
+											backgroundColor: '#ffffff',
+											textTransform: 'none',
+											fontSize: '14px',
+											fontWeight: 500,
+											height: '40px',
+											'&:hover': {
+												borderColor: '#dadce0',
+												backgroundColor: '#f8f9fa',
+												boxShadow: '0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
+											},
+											'&:disabled': {
+												borderColor: '#dadce0',
+												backgroundColor: '#f8f9fa',
+												color: '#9aa0a6',
+											}
+										}}
+									>
+										Continuar con Google
+									</Button>
 
 									{/* Register Link */}
 									<Box sx={{ textAlign: 'center', mt: 2 }}>
@@ -308,10 +320,14 @@ function Login() {
 									</Box>
 								</Stack>
 							</Box>
+							)}
 						</CardContent>
 					</Card>
 				</Container>
 			</Box>
+
+			{/* Debug component for development */}
+			
 
 			<Footer />
 

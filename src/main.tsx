@@ -8,6 +8,9 @@ import { ThemeProvider as CustomThemeProvider } from './contexts/ThemeContext'
 // Importar i18n
 import './i18n'
 
+// Components
+import ProtectedRoute from './components/auth/ProtectedRoute'
+
 // Pages
 import MarketplaceHome from './components/MarketplaceHome'
 import Login from './pages/Login'
@@ -39,11 +42,11 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/chat',
-		element: <Chat />,
+		element: <ProtectedRoute><Chat /></ProtectedRoute>,
 	},
 	{
 		path: '/publish/step1',
-		element: <PublishStepOne />,
+		element: <ProtectedRoute><PublishStepOne /></ProtectedRoute>,
 	},
 	{
 		path: '/search',
@@ -55,11 +58,11 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/profile',
-		element: <ProfilePage />,
+		element: <ProtectedRoute><ProfilePage /></ProtectedRoute>,
 	},
 	{
 		path: '/settings',
-		element: <SettingsPage />,
+		element: <ProtectedRoute><SettingsPage /></ProtectedRoute>,
 	},
 ])
 

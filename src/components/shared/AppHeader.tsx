@@ -29,11 +29,13 @@ import {
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../contexts/AuthContext'
 import ThemeToggle from './ThemeToggle'
 import LanguageToggle from './LanguageToggle'
 
 function AppHeader() {
 	const { t } = useTranslation()
+	const { user, isAuthenticated, logout } = useAuth()
 	const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null)
 	const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
 	const [searchQuery, setSearchQuery] = useState('')
@@ -69,6 +71,12 @@ function AppHeader() {
 		navigate('/monetizacion')
 	}
 
+	const handleLogout = () => {
+		logout()
+		handleUserMenuClose()
+		navigate('/')
+	}
+
 	return (
 		<AppBar position="static" color="inherit" elevation={0} sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
 			<Toolbar>
@@ -83,6 +91,7 @@ function AppHeader() {
 
 				{/* Desktop Navigation */}
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4, gap: 2 }}>
+					{/* Menú público - siempre visible */}
 					<Button 
 						color="inherit" 
 						startIcon={<CategoryIcon />}
@@ -90,13 +99,28 @@ function AppHeader() {
 					>
 						{t('header.categories')}
 					</Button>
-					<Button 
-						color="inherit" 
-						startIcon={<AddIcon />}
-						onClick={handlePublishClick}
-					>
-						{t('header.publish')}
-					</Button>
+					
+					{/* Menú privado - solo para usuarios autenticados */}
+					{isAuthenticated && (
+						<>
+							<Button 
+								color="inherit" 
+								startIcon={<AddIcon />}
+								onClick={handlePublishClick}
+							>
+								{t('header.publish')}
+							</Button>
+							<Button 
+								color="inherit" 
+								startIcon={<ChatIcon />}
+								onClick={() => navigate('/chat')}
+							>
+								{t('header.messages')}
+							</Button>
+						</>
+					)}
+					
+					{/* Monetización - siempre visible */}
 					<Button 
 						variant="outlined" 
 						size="small"
@@ -129,23 +153,31 @@ function AppHeader() {
 					</IconButton>
 				</Paper>
 
-				{/* Desktop Actions - Simplificado */}
+				{/* Desktop Actions */}
 				<Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
 					<LanguageToggle />
 					<ThemeToggle />
-					<Button 
-						variant="outlined" 
-						size="small"
-						startIcon={<LoginIcon />}
-						onClick={() => navigate('/login')}
-					>
-						{t('header.login')}
-					</Button>
-					<IconButton onClick={handleUserMenuOpen}>
-						<Avatar sx={{ width: 32, height: 32 }}>
-							U
-						</Avatar>
-					</IconButton>
+					
+					{/* Botón de login - solo para usuarios no autenticados */}
+					{!isAuthenticated && (
+						<Button 
+							variant="outlined" 
+							size="small"
+							startIcon={<LoginIcon />}
+							onClick={() => navigate('/login')}
+						>
+							{t('header.login')}
+						</Button>
+					)}
+					
+					{/* Avatar del usuario - solo para usuarios autenticados */}
+					{isAuthenticated && (
+						<IconButton onClick={handleUserMenuOpen}>
+							<Avatar sx={{ width: 32, height: 32 }}>
+								{user?.name?.charAt(0)?.toUpperCase() || 'U'}
+							</Avatar>
+						</IconButton>
+					)}
 				</Box>
 
 				{/* Mobile Menu Button */}
@@ -165,27 +197,54 @@ function AppHeader() {
 				onClose={handleMobileMenuClose}
 				sx={{ display: { xs: 'block', md: 'none' } }}
 			>
+				{/* Menú público - siempre visible */}
 				<MenuItem onClick={() => { navigate('/search'); handleMobileMenuClose(); }}>
 					<CategoryIcon sx={{ mr: 2 }} />
 					{t('header.categories')}
-				</MenuItem>
-				<MenuItem onClick={() => { handlePublishClick(); handleMobileMenuClose(); }}>
-					<AddIcon sx={{ mr: 2 }} />
-					{t('header.publish')}
 				</MenuItem>
 				<MenuItem onClick={() => { handleMonetizationClick(); handleMobileMenuClose(); }}>
 					<MonetizationIcon sx={{ mr: 2 }} />
 					{t('header.monetization')}
 				</MenuItem>
-				<Divider />
-				<MenuItem onClick={() => { navigate('/chat'); handleMobileMenuClose(); }}>
-					<ChatIcon sx={{ mr: 2 }} />
-					{t('header.messages')}
-				</MenuItem>
-				<MenuItem onClick={() => { navigate('/login'); handleMobileMenuClose(); }}>
-					<LoginIcon sx={{ mr: 2 }} />
-					{t('header.login')}
-				</MenuItem>
+				
+				{/* Menú privado - solo para usuarios autenticados */}
+				{isAuthenticated && (
+					<>
+						<Divider />
+						<MenuItem onClick={() => { handlePublishClick(); handleMobileMenuClose(); }}>
+							<AddIcon sx={{ mr: 2 }} />
+							{t('header.publish')}
+						</MenuItem>
+						<MenuItem onClick={() => { navigate('/chat'); handleMobileMenuClose(); }}>
+							<ChatIcon sx={{ mr: 2 }} />
+							{t('header.messages')}
+						</MenuItem>
+						<MenuItem onClick={() => { navigate('/profile'); handleMobileMenuClose(); }}>
+							<PersonIcon sx={{ mr: 2 }} />
+							{t('header.profile')}
+						</MenuItem>
+						<MenuItem onClick={() => { navigate('/settings'); handleMobileMenuClose(); }}>
+							<SettingsIcon sx={{ mr: 2 }} />
+							{t('header.settings')}
+						</MenuItem>
+						<Divider />
+						<MenuItem onClick={() => { handleLogout(); handleMobileMenuClose(); }}>
+							<LogoutIcon sx={{ mr: 2 }} />
+							{t('header.logout')}
+						</MenuItem>
+					</>
+				)}
+				
+				{/* Botón de login - solo para usuarios no autenticados */}
+				{!isAuthenticated && (
+					<>
+						<Divider />
+						<MenuItem onClick={() => { navigate('/login'); handleMobileMenuClose(); }}>
+							<LoginIcon sx={{ mr: 2 }} />
+							{t('header.login')}
+						</MenuItem>
+					</>
+				)}
 			</Menu>
 
 			{/* User Menu - Con notificaciones y mensajes */}
@@ -211,7 +270,7 @@ function AppHeader() {
 					{t('header.settings')}
 				</MenuItem>
 				<Divider />
-				<MenuItem onClick={() => { navigate('/login'); handleUserMenuClose(); }}>
+				<MenuItem onClick={() => { handleLogout(); handleUserMenuClose(); }}>
 					<LogoutIcon sx={{ mr: 2 }} />
 					{t('header.logout')}
 				</MenuItem>
